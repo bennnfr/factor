@@ -1,0 +1,72 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body animated fadeIn">
+            <form ngNativeValidate [formGroup]="forma" (ngSubmit)="registrarUsuario()" class="form-horizontal form-material" id="loginform" action="index.html">
+
+
+                <div class="form-group m-t-20">
+                    <div class="col-xs-12">
+                        <input formControlName="nombre" name="nombre" class="form-control" type="text" required placeholder="Nombre">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input formControlName="correo" name="correo" class="form-control" type="email" required placeholder="Correo">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input formControlName="password" name="password" class="form-control" type="password" required placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input formControlName="password2" name="password2" class="form-control" type="password" required placeholder="Confirma contraseña">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input formControlName="puesto" name="puesto" class="form-control" type="text" placeholder="Puesto del usuario">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="genero">Genero</label>
+                    <select class="form-control" id="genero">
+                      <option>MASCULINO</option>
+                      <option>FEMENINO</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="estatus">Estatus</label>
+                    <select class="form-control" id="estatus">
+                      <option>ACTIVO</option>
+                      <option>INACTIVO</option>
+                      <option>SUSPENDIDO</option>
+                    </select>
+                </div>
+
+                <!-- <div class="form-group" *ngIf="forma.errors?.sonIguales && !forma.pristine">
+                    <p class="text-danger">
+                        Las contraseñas deben de se iguales
+                    </p>
+                </div> -->
+
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Registrarme</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
