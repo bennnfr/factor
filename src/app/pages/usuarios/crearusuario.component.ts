@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/service.index';
 import { Usuario, Usuario2 } from '../../models/usuario.model';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 declare function init_plugins();
 
@@ -14,7 +15,7 @@ declare function init_plugins();
   styles: []
 })
 export class CrearUsuarioComponent implements OnInit {
-
+  
   forma: FormGroup;
 
   constructor(
@@ -59,28 +60,56 @@ export class CrearUsuarioComponent implements OnInit {
 
 
   registrarUsuario() {
-    console.log('llego aqui');
+
+// Obtener el elemento por el id
+    const genero: any = document.getElementById('genero');
+    const estatus: any = document.getElementById('estatus');
+
+// Obtener el valor de la opción seleccionada
+    const valorGenero = genero.options[genero.selectedIndex].value;
+    const valorEstatus = estatus.options[estatus.selectedIndex].value;
+
+// Obtener el texto que muestra la opción seleccionada
+//    let valorSeleccionado2 = this.genero.options[this.genero.selectedIndex].text;
 
     if ( this.forma.invalid ) {
       console.log('llego aca');
       return;
     }
 
-    console.log('llego aqui');
-
-    let usuario = new Usuario2(
+    const usuario = new Usuario2(
       this.forma.value.nombre,
       this.forma.value.correo,
       this.forma.value.password,
       this.forma.value.puesto,
-      this.forma.value.genero,
-      this.forma.value.estatus
+      valorGenero,
+      valorEstatus
     );
 
     this._usuarioService.crearUsuario( usuario )
-              .subscribe( resp => this.router.navigate(['/crearusuario']));
+              .subscribe( resp => {this.router.navigate(['/crearusuario']),
+              Swal.fire(
+                'Creacion de Usuario',
+                'Exitosa',
+                'success'
+             ); }, (err) => {
+                                    console.log(err.error.error.email[0]);
+                                    if (err.error.error.email[0] === 'has already been taken') {
+
+                                      Swal.fire(
+                                        'Error al crear usuario',
+                                        'El correo electronico ya existe',
+                                        'error'
+                                     );
+
+                                    }
+
+
+                                  } );
 
     this.forma.reset();
+
+  //  console.log(usuario);
   }
 
 

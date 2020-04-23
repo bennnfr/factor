@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Usuario, Usuario2 } from '../../models/usuario.model';
+import { Usuario, Usuario2, Usuario3 } from '../../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS, SECRET_KEY } from '../../config/config';
 import Swal from 'sweetalert2';
@@ -15,7 +15,7 @@ export class UsuarioService {
   usuario: Usuario;
   token: string;
   usuario2: Usuario2;
-  usuariop: Usuario;
+  idUsuario: string;
 
   constructor(
     public http: HttpClient,
@@ -45,9 +45,6 @@ export class UsuarioService {
    }
 
    const fechaHoyC = Date.parse(fechaHoyA + '-' + fechaHoyM + '-' + fechaHoyD);
-
-   // console.log(fechaExpiraToken);
-   // console.log(fechaHoyC);
 
    if ( this.token.length > 5 ) {
 
@@ -146,28 +143,13 @@ export class UsuarioService {
 
   crearUsuario( usuario: Usuario2 ) {
 
-    const url = `${URL_SERVICIOS}/users?auth[email]=${usuario.email}&auth[password]=${usuario.password}&auth[name]=${usuario.nombre}&token=${this.token}&secret_key=${SECRET_KEY}&genero=${usuario.genero}&estatus=${usuario.estatus}`
+    const url = `${URL_SERVICIOS}/users?auth[email]=${usuario.email}&auth[password]=${usuario.password}&auth[name]=${usuario.nombre}&auth[job]=${usuario.puesto}&auth[gender]=${usuario.genero}&auth[status]=${usuario.estatus}&token=${this.token}&secret_key=${SECRET_KEY}`;
 
 
-    return this.http.post( url, null )
-              .map( (resp: any) => {
-
-                console.log('AAAA ' + resp.error.error.email);
-
-                Swal.fire(
-                  'El Usuario: ' + usuario.nombre,
-                  'Fue creado exitosamente',
-                  'success'
-                );
+    return this.http.post( url, null ).pipe(
+              map( (resp: any) => {
                 return resp;
-              }, (err) => {
-                Swal.fire(
-                  'El Usuario:',
-                  'Fue creado exitosamente',
-                  'success'
-                );
-                return console.log(err.error.error.email);
-                });
+              }));
   }
 
   getUsuarios() {
@@ -175,11 +157,11 @@ export class UsuarioService {
     const url = `${URL_SERVICIOS}/users?secret_key=${SECRET_KEY}&token=${this.token}`;
 
     return this.http.get( url ).pipe(
-    map( (resp: any) => {return this.crearArreglo(resp);
+    map( (resp: any) => {return this.crearArregloUsuarios(resp);
     }));
 
     }
-  crearArreglo( usuariosObj: any) {
+  crearArregloUsuarios( usuariosObj: any) {
 
     const usuarios: any[] = [];
     const resul: any[] = [];
@@ -191,8 +173,8 @@ export class UsuarioService {
     });
     // tslint:disable-next-line: forin
     for (const prop in usuarios[0]) {
-    console.log( usuarios[0][prop].attributes );
-    resul.push( usuarios[0][prop].attributes )
+  //  console.log( usuarios[0][prop].attributes );
+    resul.push( usuarios[0][prop].attributes );
     }
 
     console.log(resul);
@@ -200,4 +182,44 @@ export class UsuarioService {
     return resul;
 
 }
+
+getUsuario( id: string ) {
+
+  const url = `${URL_SERVICIOS}/users/${id}?secret_key=${SECRET_KEY}&token=${this.token}`;
+
+  return this.http.get( url ).pipe(
+    map ( (resp: any) => { return this.crearArregloUsuario(resp);
+    } ));
+
+}
+
+crearArregloUsuario( usuariosObj: any) {
+
+  const usuarios: any[] = [];
+  const resul: any[] = [];
+ // console.log(usuariosObj);
+  if ( usuariosObj === null ) { return []; }
+  Object.keys ( usuariosObj ).forEach( key => {
+    const usuario: any = usuariosObj[key];
+    usuarios.push( usuario );
+  });
+  // tslint:disable-next-line: forin
+//  console.log( usuarios[0][prop].attributes );
+  resul.push( usuariosObj.data.attributes );
+
+ // console.log(resul);
+
+  return resul;
+
+}
+
+actualizaUsuario(usuario: Usuario3) {
+
+const url = `${URL_SERVICIOS}/users/${usuario.id}?token=${this.token}&secret_key=${SECRET_KEY}&auth[job]=${usuario.puesto}&auth[status]=${usuario.estatus}&auth[password]=123456789&auth[gender]=${usuario.genero}&auth[email]=${usuario.email}&auth[name]=${usuario.nombre}`;
+
+return this.http.patch( url, null ).pipe(
+  map( (resp: any) => { return resp;
+  } ));
+}
+
 }

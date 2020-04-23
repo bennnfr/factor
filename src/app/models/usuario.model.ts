@@ -26,3 +26,15 @@ export class Usuario2 {
 
 }
 
+export class Usuario3 {
+
+    constructor(
+        public id: string,
+        public nombre: string,
+        public email: string,
+        public puesto?: string,
+        public genero?: string,
+        public estatus?: string
+    ) { }
+
+}
