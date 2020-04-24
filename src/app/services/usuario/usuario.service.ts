@@ -222,4 +222,14 @@ return this.http.patch( url, null ).pipe(
   } ));
 }
 
+borrarUsuario(usuario: any) {
+
+  const url = `${URL_SERVICIOS}/users/${usuario.id}?token=${this.token}&secret_key=${SECRET_KEY}`;
+
+  return this.http.delete( url ).pipe(
+    map( (resp: any) => { return resp;
+     } ));
+
+}
+
 }

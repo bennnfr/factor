@@ -4,6 +4,7 @@ import { Usuario, Usuario2 } from '../../models/usuario.model';
 import { URL_SERVICIOS, SECRET_KEY } from '../../config/config';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import swal2 from 'sweetalert2';
 
 @Component({
   selector: 'app-verusuarios',
@@ -22,7 +23,43 @@ export class VerUsuariosComponent implements OnInit {
 
   ngOnInit() {
 
-  this._usuarioservice.getUsuarios().subscribe( resp => {this.usuarios = resp;} );
+  this._usuarioservice.getUsuarios().subscribe( resp => {this.usuarios = resp; } );
+
+  }
+
+  borraUsuario( user: any ) {
+
+    swal2.fire({
+      title: 'Desea Eliminar al usuario',
+      text: user.name + '?',
+      icon: 'question',
+      showConfirmButton: true,
+      showCancelButton: true,
+      allowOutsideClick: false
+    }). then ( resp => {
+      if ( resp.value) {
+
+        this._usuarioservice.borrarUsuario( user ).subscribe( () => {
+
+          swal2.fire({
+            title: 'El usuario' + user.name,
+            text: 'fue eliminado con exito',
+            icon: 'success',
+            showConfirmButton: true,
+            showCancelButton: false,
+            allowOutsideClick: false
+          }). then ( res => {
+
+            if ( res.value ) {
+              window.location.reload();
+            }
+
+          } );
+
+        } );
+
+      }
+    });
 
   }
 

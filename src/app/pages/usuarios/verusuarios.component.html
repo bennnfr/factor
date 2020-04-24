@@ -18,6 +18,7 @@
                                     <th>Puesto</th>
                                     <th>Genero</th>
                                     <th>Estatus</th>
+                                    <th>Herramientas</th>
                                 </tr>
                             </thead>
                             <tbody *ngFor="let user of usuarios">
@@ -28,6 +29,7 @@
                                     <td>{{ user.job }}</td>
                                     <td>{{ user.gender }}</td>
                                     <td>{{ user.status }}</td>
+                                    <td> <button class="btn btn-danger" (click)="borraUsuario( user )">Borrar</button> </td>
                                 </tr>
                             </tbody>
                         </table>
