@@ -1,26 +1,29 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-
-import { SettingsService, UsuarioService } from '../../services/service.index';
+import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from '../../services/service.index';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import swal2 from 'sweetalert2';
 import { Usuario, Usuario2, Usuario3 } from '../../models/usuario.model';
+import { map } from 'rxjs/operators';
+import swal2 from 'sweetalert2';
 
 @Component({
-  selector: 'app-accout-settings',
-  templateUrl: './accout-settings.component.html',
+  selector: 'app-editarusuario',
+  templateUrl: './editarusuario.component.html',
   styles: []
 })
-export class AccoutSettingsComponent implements OnInit {
+export class EditarUsuarioComponent implements OnInit {
 
   forma: FormGroup;
-  idUsuario: string;
   resp: any;
 
-  constructor( public _ajustes: SettingsService,
-               public _usuarioService: UsuarioService ) { }
+  constructor( public _usuarioService: UsuarioService,
+               public http: HttpClient,
+               private route: ActivatedRoute ) { }
 
   ngOnInit() {
+
+    const id = this.route.snapshot.paramMap.get('id');
 
     this.forma = new FormGroup({
       nombre: new FormControl( null),
@@ -32,44 +35,15 @@ export class AccoutSettingsComponent implements OnInit {
 
     });
 
-    this.idUsuario = localStorage.getItem('id');
-    this.colocarCheck();
-    this._usuarioService.getUsuario( this.idUsuario ).subscribe( resp => this.resp = resp );
-  }
+    this._usuarioService.getUsuario( id ).subscribe( resp => this.resp = resp );
 
-  cambiarColor( tema: string, link: any ) {
-
-    this.aplicarCheck( link );
-    this._ajustes.aplicarTema( tema );
-
-  }
-
-  aplicarCheck( link: any ) {
-
-    const selectores: any = document.getElementsByClassName('selector');
-    for ( const ref of selectores ) {
-      ref.classList.remove('working');
-    }
-    link.classList.add('working');
-
-  }
-
-  colocarCheck() {
-
-    const selectores: any = document.getElementsByClassName('selector');
-    const tema = this._ajustes.ajustes.tema;
-    for ( const ref of selectores ) {
-      if ( ref.getAttribute('data-theme') === tema ) {
-        ref.classList.add('working');
-        break;
-      }
-    }
+    console.log ( 'aqui esta el id?... ' + id );
 
   }
 
   guardarCambios() {
     // Obtener el elemento por el id
-    this.idUsuario = localStorage.getItem('id');
+    const id = this.route.snapshot.paramMap.get('id');
     const genero: any = document.getElementById('genero');
     const estatus: any = document.getElementById('estatus');
     const nombre: any = document.getElementById('nomb');
@@ -92,7 +66,7 @@ export class AccoutSettingsComponent implements OnInit {
     }
 
     const usuario = new Usuario3(
-      this.idUsuario,
+      id,
       valorNombre,
       valorEmail,
       valorPuesto,
@@ -103,13 +77,13 @@ export class AccoutSettingsComponent implements OnInit {
    // console.log(usuario);
 
     // tslint:disable-next-line: no-unused-expression
-  //  this._usuarioService.actualizaUsuario(usuario).subscribe( resp => { resp;
-  //                                                                      console.log(resp);
-   // } );
+   // this._usuarioService.actualizaUsuario(usuario).subscribe( resp => { resp;
+   //                                                                     console.log(resp);
+  //  } );
 
     swal2.fire({
-      title: 'Desea Modificar sus Datos',
-      text: '?',
+      title: 'Desea Modificar al usuario',
+      text: usuario.nombre + '?',
       icon: 'question',
       showConfirmButton: true,
       showCancelButton: true,
@@ -120,8 +94,8 @@ export class AccoutSettingsComponent implements OnInit {
         this._usuarioService.actualizaUsuario(usuario).subscribe( () => {
 
           swal2.fire({
-            title: 'Sus Datos Fueron Guardados',
-            text: 'Con exito',
+            title: 'El usuario',
+            text: 'fue Modificado con exito',
             icon: 'success',
             showConfirmButton: true,
             showCancelButton: false,
@@ -139,6 +113,8 @@ export class AccoutSettingsComponent implements OnInit {
       }
     });
 
+
   }
+
 
 }

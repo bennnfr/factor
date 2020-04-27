@@ -177,7 +177,7 @@ export class UsuarioService {
     resul.push( usuarios[0][prop].attributes );
     }
 
-    console.log(resul);
+   // console.log(resul);
 
     return resul;
 

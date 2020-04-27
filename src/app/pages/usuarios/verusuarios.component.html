@@ -1,15 +1,11 @@
-<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
-
 <body>
-
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Data Export</h4>
-                    <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                    <h4 class="card-title">Lista de Usuarios</h4>
                     <div class="table-responsive m-t-40">
-                        <table id="example23" class="display nowrap table table-hover table-bordered animated fadeIn" cellspacing="0" width="100%">
+                        <table id="example23" class="table color-table primary-table" cellspacing="0" width="100%">
                             <thead>
                                 <tr style="font-weight: bold;">
                                     <th>ID</th>
@@ -29,7 +25,10 @@
                                     <td>{{ user.job }}</td>
                                     <td>{{ user.gender }}</td>
                                     <td>{{ user.status }}</td>
-                                    <td> <button class="btn btn-danger" (click)="borraUsuario( user )">Borrar</button> </td>
+                                    <td>
+                                        <button class="btn btn-danger mr-1" (click)="borraUsuario( user )">Borrar</button>
+                                        <button class="btn btn-info" [routerLink]="['../editarusuario', user.id]">Editar</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

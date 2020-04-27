@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/service.index';
-import { Usuario, Usuario2 } from '../../models/usuario.model';
-import { URL_SERVICIOS, SECRET_KEY } from '../../config/config';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import swal2 from 'sweetalert2';
@@ -20,10 +19,22 @@ export class VerUsuariosComponent implements OnInit {
 
   usuarios: any[] = [];
   usuario: string;
+  cols: any[];
+  selectedFac: any[];
+  router: Router;
 
   ngOnInit() {
 
-  this._usuarioservice.getUsuarios().subscribe( resp => {this.usuarios = resp; } );
+    this.cols = [
+      { field: 'id', header: 'ID' },
+      { field: 'nombre', header: 'Nombre' },
+      { field: 'correo', header: 'Correo' },
+      { field: 'puesto', header: 'Puesto' },
+      { field: 'genero', header: 'Genero' },
+      { field: 'estatus', header: 'Estatus' }
+  ];
+
+    this._usuarioservice.getUsuarios().subscribe( resp => {this.usuarios = resp; } );
 
   }
 
@@ -62,5 +73,14 @@ export class VerUsuariosComponent implements OnInit {
     });
 
   }
+
+  editarUsuario( user: any ) {
+
+    this.router.navigate(['/dashboard']);
+
+    console.log( user );
+
+  }
+
 
 }

@@ -27,9 +27,11 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { CrearUsuarioComponent } from './usuarios/crearusuario.component';
 import { VerUsuariosComponent } from './usuarios/verusuarios.component';
+import { EditarUsuarioComponent } from './usuarios/editarusuario.component';
 
 // Pipes
 import { PipesModule } from '../pipes/pipes.module';
+
 
 
 
@@ -47,7 +49,8 @@ import { PipesModule } from '../pipes/pipes.module';
         PromesasComponent,
         RxjsComponent,
         CrearUsuarioComponent,
-        VerUsuariosComponent
+        VerUsuariosComponent,
+        EditarUsuarioComponent
     ],
     exports: [
         DashboardComponent,

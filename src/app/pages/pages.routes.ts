@@ -11,6 +11,7 @@ import { CrearUsuarioComponent } from './usuarios/crearusuario.component';
 
 import { LoginGuardGuard } from '../services/service.index';
 import { VerUsuariosComponent } from './usuarios/verusuarios.component';
+import { EditarUsuarioComponent } from './usuarios/editarusuario.component';
 
 
 
@@ -28,7 +29,8 @@ const pagesRoutes: Routes = [
             { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
             { path: 'crearusuario', component: CrearUsuarioComponent, data: { titulo: 'Crear Usuario' } },
             { path: 'verusuarios', component: VerUsuariosComponent, data: { titulo: 'Consultar Usuarios' } },
-            { path: 'account-settings', component: AccoutSettingsComponent, data: { titulo: 'Ajustes de Tema' } },
+            { path: 'account-settings', component: AccoutSettingsComponent, data: { titulo: 'Ajustes de Usuario' } },
+            { path: 'editarusuario/:id', component: EditarUsuarioComponent, data: { titulo: 'Editar Usuario' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
         ]
     }
