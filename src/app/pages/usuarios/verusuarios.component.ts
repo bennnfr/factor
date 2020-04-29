@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/service.index';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import swal2 from 'sweetalert2';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+const doc = new jsPDF();
+declare var JQuery: any;
+declare var $: any;
+
 
 @Component({
   selector: 'app-verusuarios',
@@ -12,16 +18,21 @@ import swal2 from 'sweetalert2';
 })
 export class VerUsuariosComponent implements OnInit {
 
+
   constructor( public _usuarioservice: UsuarioService,
-               public http: HttpClient ) { }
+               public http: HttpClient ) {
+                
+                }
 
   token = localStorage.getItem('token');
-
+  doc = new jsPDF();
   usuarios: any[] = [];
   usuario: string;
   cols: any[];
   selectedFac: any[];
   router: Router;
+  fileName = 'ListaDeUsuarios.xlsx';
+  a = false;
 
   ngOnInit() {
 
@@ -73,14 +84,27 @@ export class VerUsuariosComponent implements OnInit {
     });
 
   }
+  exportexcel()
+  {
+     /* table id is passed over here */
+     const element = document.getElementById('tablausuarios');
+     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+     /* generate workbook and add the worksheet */
+     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+     console.log(wb);
+     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  editarUsuario( user: any ) {
-
-    this.router.navigate(['/dashboard']);
-
-    console.log( user );
+     /* save to file */
+     XLSX.writeFile(wb, this.fileName);
 
   }
 
 
+  exportpdf() {
+
+    doc.autoTable({ html: '#tablausuarios' });
+
+    doc.save('ListaDeUsuarios.pdf');
+
+  }
 }

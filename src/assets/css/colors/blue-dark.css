@@ -38,6 +38,16 @@ sidebar navigation: #242a33
 
 *******************/
 
+.page-titles {
+    background-color: #18254F;
+}
+
+.page-wrapper {
+    background: #18254F;
+    padding-bottom: 60px;
+    position: relative;
+}
+
 .topbar {
     background: #030720;
 }
@@ -128,7 +138,7 @@ a.link:focus {
 }
 
 .text-themecolor {
-    color: #030720 !important;
+    color: white !important;
 }
 
 .profile-tab li a.nav-link.active,
@@ -195,7 +205,7 @@ a.link:focus {
 }
 
 .user-profile .profile-text a {
-    color: #687384 !important;
+    color: #030720 !important;
 }
 
 .card-no-border .sidebar-footer {

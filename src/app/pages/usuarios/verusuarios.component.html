@@ -1,14 +1,19 @@
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Lista de Usuarios</h4>
                     <div class="table-responsive m-t-40">
-                        <table id="example23" class="table color-table primary-table" cellspacing="0" width="100%">
+                        <a style="cursor: pointer">
+                            <button (click)="exportexcel()" class="btn btn-outline-success mb-2"><i class="mdi mdi-file-excel" style="font-size: x-large;"></i> XLSX</button>
+                            <button (click)="exportpdf()" class="btn btn-outline-danger ml-2 mb-2"> <i class="mdi mdi-file-pdf" style="font-size: x-large;"></i> PDF</button>
+                        </a>
+                        <table id="tablausuarios" class="table full-color-table full-info-table hover-table" cellspacing="0" width="100%">
                             <thead>
                                 <tr style="font-weight: bold;">
-                                    <th>ID</th>
+                                    <th data-sortable="true">ID</th>
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>Puesto</th>
@@ -18,16 +23,18 @@
                                 </tr>
                             </thead>
                             <tbody *ngFor="let user of usuarios">
-                                <tr>
+                                <tr style="font-weight: bold;">
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.job }}</td>
                                     <td>{{ user.gender }}</td>
-                                    <td>{{ user.status }}</td>
+                                    <td *ngIf="user.status === 'ACTIVO'" class=" badge badge-pill badge-success mt-2">{{ user.status }}</td>
+                                    <td *ngIf="user.status === 'INACTIVO'" class=" badge badge-pill badge-dark mt-2">{{ user.status }}</td>
+                                    <td *ngIf="user.status === 'SUSPENDIDO'" class=" badge badge-pill badge-warning mt-2">{{ user.status }}</td>
                                     <td>
-                                        <button class="btn btn-danger mr-1" (click)="borraUsuario( user )">Borrar</button>
-                                        <button class="btn btn-info" [routerLink]="['../editarusuario', user.id]">Editar</button>
+                                        <button class="btn btn-outline-danger  mr-1" (click)="borraUsuario( user )"><i class="mdi mdi-account-remove" style="font-size: large;"></i></button>
+                                        <button class="btn btn-outline-success" [routerLink]="['../editarusuario', user.id]"><i class="mdi mdi-pencil" style="font-size: large;"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
