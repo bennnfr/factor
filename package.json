@@ -22,7 +22,7 @@
     "@angular/router": "~8.2.14",
     "chart.js": "^2.9.3",
     "core-js": "^2.5.0",
-    "datatables.net": "^1.10.20",
+    "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.20",
     "file-saver": "^2.0.2",
     "jspdf": "^1.5.3",
